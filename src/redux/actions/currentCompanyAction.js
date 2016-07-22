@@ -24,7 +24,7 @@ export function	saveCurrentCompany(currentCompany){
   delete companyObject.Doctors;
   delete companyObject.Clinics;
 	return function(dispatch){
-    postRequest('/CCompanies/save',currentCompany)
+    postRequest('/CCompanies/save',companyObject)
       .then(res => {
         console.log('response=',res);
         toastr.success('', 'Saved company information successfully !')

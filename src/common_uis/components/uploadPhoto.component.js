@@ -9,6 +9,7 @@ export default React.createClass({
 
   propTypes: {
     name: PropTypes.string.isRequired,
+    photoData: PropTypes.string.isRequired,
     subModel: PropTypes.string
   },
 
@@ -18,10 +19,18 @@ export default React.createClass({
   },
 
   getInitialState() {
-    return {
-      file: '',
-      imagePreviewUrl: ''
-    };
+    if(this.props.subModel){
+      return {
+        file: '',
+        imagePreviewUrl: this.context.value[this.props.subModel][this.props.photoData]
+      };
+    }else {
+      return {
+        file: '',
+        imagePreviewUrl: this.context.value[this.props.photoData]
+      };
+    }
+
   },
 
   uploadFile: function (e) {
@@ -45,7 +54,7 @@ export default React.createClass({
     reader.readAsDataURL(file)
 
     var valueObject = {};
-    valueObject[this.props.name] = fd;
+    valueObject[this.props.name] = event.target.files[0];
     this.context.update(valueObject,this.props.subModel);
 
     /*
@@ -71,7 +80,7 @@ export default React.createClass({
     }
     return (
       <div>
-          <form ref="uploadForm" className="uploader" encType="multipart/form-data" >
+
             <div className="mt-card-item">
                 <div className="mt-card-avatar mt-overlay-1">
                     {$imagePreview}
@@ -82,7 +91,7 @@ export default React.createClass({
                   </label>
                 </div>
             </div>
-         </form>
+
        </div>
     );
   }

@@ -1,19 +1,30 @@
 import axios from 'axios';
 import {toastr} from 'react-redux-toastr';
+import {browserHistory} from 'react-router';
+import clone from 'clone';
 
+import apiUrl from './lib/url';
 import * as types from './types';
-import {postRequest} from './lib/request';
+import {getRequest,postRequest} from './lib/request';
 import {mySqlDateToString} from './lib/mySqlDate';
 
 export function setCurrentDoctor(currentDoctor){
-    if(currentDoctor.Person){
-      currentDoctor.Person.dob = mySqlDateToString(currentDoctor.Person.dob);
+  var doctorObject = clone(currentDoctor)
+    if(doctorObject.Person){
+      doctorObject.Person.dob = mySqlDateToString(doctorObject.Person.dob);
     }
 
-    return{
-      type: types.SET_CURRENT_DOCTOR,
-      currentDoctor
+    return function(dispatch){
+      if(doctorObject.Person.Avatar){
+        doctorObject.Person.avatarData = apiUrl(doctorObject.Person.Avatar.fileUrl);
+        dispatch({type: types.SET_CURRENT_DOCTOR,currentDoctor: doctorObject});
+        browserHistory.push('/Home/DoctorDetail');        
+      }else{
+        dispatch({type: types.SET_CURRENT_DOCTOR,currentDoctor: doctorObject});
+        browserHistory.push('/Home/DoctorDetail');
+      }
     }
+
 };
 
 export function	updateCurrentDoctorFields(currentDoctor,subModel){
@@ -25,13 +36,23 @@ export function	updateCurrentDoctorFields(currentDoctor,subModel){
 };
 
 export function	saveCurrentDoctor(currentDoctor){
-  /*
+  //let doctorObject = clone(currentDoctor);
   console.log('will save currentDoctor = ',currentDoctor);
-  var companyObject = currentDoctor;
-  delete companyObject.Doctors;
-  delete companyObject.Clinics;
+  var fd = new FormData();
+  //fd.append('file',currentDoctor.Person.avatar);
+
+  //delete doctorObject.Person.avatar;
+  //delete doctorObject.Person.Avatar;
+  //delete doctorObject.Person.Signature;
+  for ( var key in currentDoctor.Person ) {
+    fd.append(key, currentDoctor.Person[key]);
+  }
+
+
+  //{doctor:doctorObject,avatar:currentDoctor.Person.avatar}
+
 	return function(dispatch){
-    postRequest('/CCompanies/save',currentCompany)
+    postRequest('/CDoctors/save',fd,{container: 'doctorAvatar'})
       .then(res => {
         console.log('response=',res);
         toastr.success('', 'Saved company information successfully !')
@@ -40,21 +61,20 @@ export function	saveCurrentDoctor(currentDoctor){
         console.log('err=',err);
         toastr.error('Fail to save company information (' + err + ')')
       });
-  }*/
+  }
 };
 
 export function uploadPhotoDoctor(currentDoctor){
   console.log('uploadPhotoDoctor.currentDoctor = ',currentDoctor);
-  currentDoctor.Person.avatar.append('container','doctorAvatar');
+  //currentDoctor.Person.avatar.append('container','doctorAvatar');
+  var fd = new FormData();
+  fd.append('file',currentDoctor.Person.avatar);
+  fd.append('firstName',currentDoctor.Person.firstName);
+  fd.append('lastName',currentDoctor.Person.lastName);
   //  '/CContainers/avatar/upload'   '/CFiles/upload'
   //params: {container: 'doctorAvatar'},
-  var config = {
-    headers:{Authorization:'lpAccessToken'},
-    params: {container: 'doctorAvatar'},
-    options:{id:1}
-  };
 
-  postRequest('/Files/upload',currentDoctor.Person.avatar,{container: 'doctorAvatar'})
+  postRequest('/Files/upload',fd,{container: 'doctorAvatar'})
     .then(succ => {
         console.log('uploadfile = ',succ);
     })

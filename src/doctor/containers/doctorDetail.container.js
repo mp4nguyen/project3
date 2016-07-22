@@ -29,7 +29,9 @@ class DoctorDetail extends Component {
 
   _submit(){
     console.log('submit company detail');
-    this.props.uploadPhotoDoctor(this.props.currentDoctor);
+    //this.props.uploadPhotoDoctor(this.props.currentDoctor);
+    this.props.saveCurrentDoctor(this.props.currentDoctor);
+
   }
 
   render() {

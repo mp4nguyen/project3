@@ -19,5 +19,6 @@ module.exports = {
 
   setCurrentDoctor: currentDoctorActions.setCurrentDoctor,
   updateCurrentDoctorFields: currentDoctorActions.updateCurrentDoctorFields,
+  saveCurrentDoctor: currentDoctorActions.saveCurrentDoctor,
   uploadPhotoDoctor: currentDoctorActions.uploadPhotoDoctor
 }

@@ -28,6 +28,8 @@
   "dependencies": {
     "axios": "^0.13.0",
     "babel-preset-stage-1": "^6.1.18",
+    "base-64": "^0.1.0",
+    "clone": "^1.0.2",
     "email-validator": "^1.0.4",
     "lodash": "^3.10.1",
     "lodash.assign": "^4.0.9",
@@ -38,7 +40,6 @@
     "react-body-classname": "^1.0.1",
     "react-dom": "^15.2.1",
     "react-dropzone-component": "^1.0.4",
-    "react-file-input": "^0.2.5",
     "react-jsonschema-form": "^0.38.0",
     "react-overlays": "^0.6.5",
     "react-redux": "^4.0.0",

@@ -73,7 +73,7 @@ export default React.createClass({
       <div>
         <div className="row">
           <div className="col-md-3">
-            <UploadPhoto subModel={this.props.subModel} name="avatar"/>
+            <UploadPhoto subModel={this.props.subModel} name="avatar" photoData="avatarData"/>
           </div>
           <div className="col-md-9">
             <div className="row">
