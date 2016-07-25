@@ -14,7 +14,7 @@ let rosterReducer = function(roster={
   console.log('companyReducer = ',action);
   switch(action.type){
     case ROSTER_OPEN_CLICK_DAY_MODAL:
-        return Object.assign({},roster,{isClickDayModalOpen:action.isOpen});
+        return Object.assign({},roster,{isEventDayModalOpen:action.isOpen,currentRoster:action.currentRoster});
     case ROSTER_CLOSE_CLICK_DAY_MODAL:
         return Object.assign({},roster,{isClickDayModalOpen:action.isOpen});
     case ROSTER_OPEN_EVENT_DAY_MODAL:

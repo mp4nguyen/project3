@@ -45,9 +45,26 @@ export default React.createClass({
   },
 
   updateValue(value) {
-    console.log('date.updateValue = ',value);
+
     var valueObject = {};
-    valueObject[this.props.name] = moment(value).format('YYYY/MM/DD');
+    var dateValue = "";
+
+    if(this.props.subModel){
+      if(this.context.value[this.props.subModel][this.props.name]){
+        dateValue = moment(this.context.value[this.props.subModel][this.props.name],'YYYY/MM/DD').format('YYYY-MM-DD') + ' ' + moment(value).format('HH:mm:ss');
+      }else{
+        dateValue = moment(value).format('YYYY-MM-DD HH:mm:ss');
+      }
+    }else{
+      if(this.context.value[this.props.name]){
+        dateValue = moment(this.context.value[this.props.name],'YYYY/MM/DD').format('YYYY-MM-DD') + ' ' + moment(value).format('HH:mm:ss');
+      }else{
+        dateValue = moment(value).format('YYYY-MM-DD HH:mm:ss');
+      }
+    }
+
+    valueObject[this.props.name] = dateValue;
+    console.log('date.updateValue = ',valueObject);
     this.context.update(valueObject,this.props.subModel);
     //console.log("text = ",value,this.state.errors);
 
@@ -102,15 +119,11 @@ export default React.createClass({
       }
     }else{
       if(this.context.value[this.props.name]){
-
         if(moment.isMoment(this.context.value[this.props.name])){
-
           dateValue = this.context.value[this.props.name].toDate();
         }else {
-
           dateValue = moment(this.context.value[this.props.name],'YYYY/MM/DD HH:mm:ss').toDate();
         }
-
       }
     }
 

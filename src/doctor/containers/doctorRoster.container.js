@@ -52,14 +52,21 @@ class DoctorRoster extends Component {
 
   }
 
-  _dayClick(){
-    console.log('dayclick is triggered');
-    this.props.openClickDayModal();
+  _dayClick(date){
+    console.log('dayclick is triggered date=',date);
+    this.props.openClickDayModal({
+                                    doctorId:this.props.currentDoctor.doctorId,
+                                    start: date.format('YYYY-MM-DD HH:mm:ss'),
+                                    end: date.format('YYYY-MM-DD HH:mm:ss')
+                                  });
   }
 
   _eventClick(calEvent){
-    this.props.openEventDayModal(calEvent);
-    console.log('eventclick is triggered calEvent=',calEvent);
+    var newObject = Object.assign({},calEvent);
+    newObject.start = newObject.start.format('YYYY-MM-DD HH:mm:ss');
+    newObject.end = newObject.end.format('YYYY-MM-DD HH:mm:ss');
+    this.props.openEventDayModal(newObject);
+    console.log('eventclick is triggered calEvent=',newObject);
   }
 
   _select(){
@@ -70,6 +77,10 @@ class DoctorRoster extends Component {
     this.props.closeClickDayModal();
     this.props.closeEventDayModal();
     console.log('closed modal...');
+  }
+
+  _submit(){
+    this.props.rosterGeneration(this.props.roster.currentRoster);
   }
 
   render() {
@@ -94,10 +105,10 @@ class DoctorRoster extends Component {
             select={this._select.bind(this)}
             />
 
-            <Modal show={this.props.roster.isEventDayModalOpen} onHide={this._handleCloseModel.bind(this)}>
+            <Modal show={this.props.roster.isEventDayModalOpen||this.props.roster.isClickDayModalOpen} onHide={this._handleCloseModel.bind(this)}>
                 <MyForm
                   update={this.props.updateModalField}
-                  onSubmit={this._handleCloseModel.bind(this)}
+                  onSubmit={this._submit.bind(this)}
                   value={this.props.roster.currentRoster}
                 >
                   <Modal.Header closeButton>
@@ -132,7 +143,7 @@ class DoctorRoster extends Component {
                       <div className="col-md-6">
                         <Date dateType="FUTURE" name="end" label="End Date*" validate={["required"]}/>
                       </div>
-                      <div className="col-md-6">                        
+                      <div className="col-md-6">
                         <Time name="end" label="Start Time Date*" validate={["required"]}/>
                       </div>
                     </div>

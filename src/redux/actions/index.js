@@ -27,5 +27,6 @@ module.exports = {
   closeClickDayModal: rosterActions.closeClickDayModal,
   openEventDayModal: rosterActions.openEventDayModal,
   closeEventDayModal: rosterActions.closeEventDayModal,
-  updateModalField: rosterActions.updateModalField  
+  updateModalField: rosterActions.updateModalField,
+  rosterGeneration: rosterActions.rosterGeneration
 }

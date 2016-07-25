@@ -45,9 +45,27 @@ export default React.createClass({
   },
 
   updateValue(value) {
-    console.log('date.updateValue = ',value);
     var valueObject = {};
-    valueObject[this.props.name] = moment(value).format('YYYY/MM/DD');
+    var dateValue = "";
+
+    if(this.props.subModel){
+      if(this.context.value[this.props.subModel][this.props.name]){
+        dateValue = moment(value).format('YYYY/MM/DD') + ' ' + moment(this.context.value[this.props.subModel][this.props.name],'YYYY-MM-DD HH:mm:ss').format('HH:mm:ss');
+      }else{
+        dateValue = moment(value).format('YYYY/MM/DD');
+      }
+    }else{
+      if(this.context.value[this.props.name]){
+        console.log('this.context.value[this.props.name]=',this.context.value[this.props.name]);
+        dateValue = moment(value).format('YYYY/MM/DD') + ' ' + moment(this.context.value[this.props.name],'YYYY-MM-DD HH:mm:ss').format('HH:mm:ss');
+      }else{
+        dateValue = moment(value).format('YYYY/MM/DD');
+      }
+    }
+
+    valueObject[this.props.name] = dateValue;
+    console.log('date.updateValue = ',valueObject);
+
     this.context.update(valueObject,this.props.subModel);
     //console.log("text = ",value,this.state.errors);
 
