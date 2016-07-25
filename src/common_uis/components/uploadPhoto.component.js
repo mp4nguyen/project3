@@ -74,7 +74,7 @@ export default React.createClass({
     let {imagePreviewUrl} = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = (<img className="img-responsive" src={imagePreviewUrl} />);
+      $imagePreview = (<img className="img-responsive" src={imagePreviewUrl} style={{maxHeight:'300px', marginLeft: 'auto', marginRight: 'auto'}}/>);
     } else {
       $imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
     }

@@ -21,14 +21,11 @@ class DoctorList extends Component {
   }
 
   _onRowClick(rowData){
-      console.log("click on company row = ",rowData);
       this.props.setCurrentDoctor(rowData);
-      //this.context.router.push('/Home/DoctorDetail');
   }
 
   _onClickNewCompany(){
       this.props.setCurrentDoctor({Person:{}});
-      //this.context.router.push('/Home/DoctorDetail');
   }
 
   render() {

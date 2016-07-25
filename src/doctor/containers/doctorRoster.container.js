@@ -1,0 +1,155 @@
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
+import { Modal } from 'react-bootstrap';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+
+import * as actions from '../../redux/actions';
+import MyForm from "../../common_uis/components/form.component";
+import Text from  "../../common_uis/components/text.component";
+import Select from  "../../common_uis/components/select.component";
+import Date from "../../common_uis/components/date.component";
+import Time from "../../common_uis/components/time.component";
+import Checkbox from  "../../common_uis/components/checkbox.component";
+import SubmitButton from  "../../common_uis/components/submitButton.component";
+import Calendar from   "../../common_uis/components/calendar.component";
+
+import Person from  "../../common_uis/components/person.component";
+import BookingTypes from "../../common_uis/components/bookingTypes.component";
+import Clinics from "../../common_uis/components/clinics.component";
+import moment from 'moment';
+
+
+const log = (type) => console.log.bind(console, type);
+const repeatTypes = [
+          {name:'DAILY'},
+          {name:'MONTHLY'},
+          {name:'WEEKLY'},
+          {name:'2WEEKLY'},
+          {name:'3WEEKLY'},
+          {name:'4WEEKLY'},
+          {name:'5WEEKLY'},
+          {name:'6WEEKLY'},
+          {name:'7WEEKLY'},
+          {name:'8WEEKLY'}
+        ];
+class DoctorRoster extends Component {
+
+  isOpenModal = false;
+
+  static contextTypes = {
+    router: React.PropTypes.object
+  };
+
+  componentDidMount() {
+
+  }
+
+  componentWillUnmount() {
+
+  }
+
+  _dayClick(){
+    console.log('dayclick is triggered');
+    this.props.openClickDayModal();
+  }
+
+  _eventClick(calEvent){
+    this.props.openEventDayModal(calEvent);
+    console.log('eventclick is triggered calEvent=',calEvent);
+  }
+
+  _select(){
+    console.log('select is triggered');
+  }
+
+  _handleCloseModel(){
+    this.props.closeClickDayModal();
+    this.props.closeEventDayModal();
+    console.log('closed modal...');
+  }
+
+  render() {
+
+    const actions = [
+          <FlatButton
+            label="Ok"
+            primary={true}
+            keyboardFocused={true}
+            onTouchTap={this._handleCloseModel.bind(this)}
+          />,
+        ];
+
+    return (
+      (
+        <div >
+          <Calendar
+            selectable={true}
+            events={this.props.currentDoctor.RostersV}
+            dayClick={this._dayClick.bind(this)}
+            eventClick={this._eventClick.bind(this)}
+            select={this._select.bind(this)}
+            />
+
+            <Modal show={this.props.roster.isEventDayModalOpen} onHide={this._handleCloseModel.bind(this)}>
+                <MyForm
+                  update={this.props.updateModalField}
+                  onSubmit={this._handleCloseModel.bind(this)}
+                  value={this.props.roster.currentRoster}
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title>Define Roster</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <Select dataSource={this.props.currentDoctor.BookingTypes} valueField="bookingTypeId" primaryField="bookingTypeName" name="bookingTypeId" placeholder= "Booking Type" label= "Booking Type" />
+                      </div>
+                      <div className="col-md-6">
+                        <Select dataSource={this.props.currentDoctor.Clinics} valueField="clinicId" primaryField="clinicName" name="workingSiteId" placeholder= "Working Site" label= "Working Site" />
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <Select dataSource={repeatTypes} valueField="name" primaryField="name" name="repeatType" placeholder= "Repeat Type" label= "Repeat Type" validate={["required"]}/>
+                      </div>
+                      <div className="col-md-6">
+                        <Text name="timeInterval" placeholder= "Time Interval" label= "Time Interval" validate={["required","number"]}/>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <Date dateType="FUTURE" name="start" label="Start Date*" validate={["required"]}/>
+                      </div>
+                      <div className="col-md-6">
+                        <Time name="start" label="Start Time Date*" validate={["required"]}/>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <Date dateType="FUTURE" name="end" label="End Date*" validate={["required"]}/>
+                      </div>
+                      <div className="col-md-6">                        
+                        <Time name="end" label="Start Time Date*" validate={["required"]}/>
+                      </div>
+                    </div>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <SubmitButton className="pull-right"/>
+                  </Modal.Footer>
+                </MyForm>
+            </Modal>
+        </div>
+      )
+    );
+  }
+}
+
+function mapStateToProps(state){
+	return state;
+}
+
+export default connect(mapStateToProps,actions)(DoctorRoster);

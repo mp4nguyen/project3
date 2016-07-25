@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
-import DatePicker from 'material-ui/DatePicker';
+import TimePicker from 'material-ui/TimePicker';
 import * as validators from './validators';
 import moment from 'moment';
 
 export default React.createClass({
 
-  displayName: 'Date',
+  displayName: 'Time',
 
   propTypes: {
     dateType: PropTypes.string,
@@ -113,30 +113,12 @@ export default React.createClass({
 
       }
     }
-    //console.log(' dateValue = ',dateValue);
 
-    let maxDate;
-    let minDate;
-
-    if(this.props.dateType == 'BIRTHDAY' || !this.props.dateType){
-      maxDate = new Date();
-      minDate = new Date();
-      minDate.setFullYear(minDate.getFullYear() - 100);
-      minDate.setHours(0, 0, 0, 0);
-      defaultDate.setFullYear(1990);
-      defaultDate.setHours(0, 0, 0, 0);
-    }else if(this.props.dateType == 'FUTURE'){
-      minDate = new Date();
-      maxDate = new Date();
-      maxDate.setFullYear(maxDate.getFullYear() + 100);
-      maxDate.setHours(0, 0, 0, 0);
-    }
-
-    //console.log(minDate,' ',maxDate);
 
       return (
         <div>
-          <DatePicker
+          <TimePicker
+            format="24hr"
             floatingLabelText={this.props.label}
             onChange={this.onChange}
             onBlur={this.onBlur}
@@ -145,15 +127,7 @@ export default React.createClass({
                 {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
               </div>
             ) : null}
-            minDate={minDate}
-            maxDate={maxDate}
             value={dateValue}
-            formatDate={ new DateTimeFormat('en-AU', {
-                day: 'numeric',
-                month: 'numeric',
-                year: 'numeric',
-                }).format
-            }
           />
         </div>
       );

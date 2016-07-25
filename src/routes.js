@@ -11,6 +11,7 @@ import ClinicList from './clinic/containers/clinicList.container';
 import ClinicDetail from './clinic/containers/clinicDetail.container';
 import DoctorList from './doctor/containers/doctorList.container';
 import DoctorDetail from './doctor/containers/doctorDetail.container';
+import Bookings from './booking/containers/bookings.container';
 
 const  Greeting = () => {
 	return <div>Greeting</div>;
@@ -24,6 +25,8 @@ export default (
 	<Route path="/" component={App}>
 		<IndexRoute component={Login}/>
 		<Route path="Home" component={RequireAuth(Home)}>
+			<IndexRoute component={Bookings}/>
+			<Route path="Bookings" component={Bookings} />
 			<Route path="CompanyList" component={CompanyList} />
 			<Route path="CompanyDetail" component={CompanyDetail} />
 			<Route path="ClinicList" component={ClinicList} />

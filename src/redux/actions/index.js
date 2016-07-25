@@ -3,6 +3,7 @@ import * as companyActions from './companyAction';
 import * as currentCompanyActions from './currentCompanyAction';
 import * as currentClinicActions from './currentClinicAction';
 import * as currentDoctorActions from './currentDoctorAction';
+import * as rosterActions from './rosterAction';
 
 module.exports = {
   login: userActions.login,
@@ -20,5 +21,11 @@ module.exports = {
   setCurrentDoctor: currentDoctorActions.setCurrentDoctor,
   updateCurrentDoctorFields: currentDoctorActions.updateCurrentDoctorFields,
   saveCurrentDoctor: currentDoctorActions.saveCurrentDoctor,
-  uploadPhotoDoctor: currentDoctorActions.uploadPhotoDoctor
+  uploadPhotoDoctor: currentDoctorActions.uploadPhotoDoctor,
+
+  openClickDayModal: rosterActions.openClickDayModal,
+  closeClickDayModal: rosterActions.closeClickDayModal,
+  openEventDayModal: rosterActions.openEventDayModal,
+  closeEventDayModal: rosterActions.closeEventDayModal,
+  updateModalField: rosterActions.updateModalField  
 }

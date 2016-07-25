@@ -9,8 +9,9 @@ import {getRequest,postRequest} from './lib/request';
 import {mySqlDateToString} from './lib/mySqlDate';
 
 export function setCurrentDoctor(currentDoctor){
-  var doctorObject = clone(currentDoctor)
-    if(doctorObject.Person){
+    var doctorObject = clone(currentDoctor)
+    if(doctorObject.Person && doctorObject.Person.dob){
+      console.log(1);
       doctorObject.Person.dob = mySqlDateToString(doctorObject.Person.dob);
     }
 
@@ -18,7 +19,7 @@ export function setCurrentDoctor(currentDoctor){
       if(doctorObject.Person.Avatar){
         doctorObject.Person.avatarData = apiUrl(doctorObject.Person.Avatar.fileUrl);
         dispatch({type: types.SET_CURRENT_DOCTOR,currentDoctor: doctorObject});
-        browserHistory.push('/Home/DoctorDetail');        
+        browserHistory.push('/Home/DoctorDetail');
       }else{
         dispatch({type: types.SET_CURRENT_DOCTOR,currentDoctor: doctorObject});
         browserHistory.push('/Home/DoctorDetail');
@@ -35,7 +36,7 @@ export function	updateCurrentDoctorFields(currentDoctor,subModel){
 	}
 };
 
-export function	saveCurrentDoctor(currentDoctor){
+export function	saveCurrentDoctor(companyId,currentDoctor){
   //let doctorObject = clone(currentDoctor);
   console.log('will save currentDoctor = ',currentDoctor);
   var fd = new FormData();
@@ -47,7 +48,10 @@ export function	saveCurrentDoctor(currentDoctor){
   for ( var key in currentDoctor.Person ) {
     fd.append(key, currentDoctor.Person[key]);
   }
-
+  fd.append('doctorIsenable',currentDoctor.isenable);
+  fd.append('doctorTimeInterval',currentDoctor.timeInterval);
+  fd.append('doctorId',currentDoctor.doctorId);
+  fd.append('companyId',companyId);
 
   //{doctor:doctorObject,avatar:currentDoctor.Person.avatar}
 

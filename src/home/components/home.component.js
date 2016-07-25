@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router';
 
-import { Affix ,AutoAffix} from 'react-overlays';
+//import { Affix ,AutoAffix} from 'react-overlays';
+import Affix from '../../common_uis/components/affix.component';
 
 export default class Home extends Component {
 
@@ -368,7 +369,8 @@ export default class Home extends Component {
                   </div>
               </div>
               {/* END HEADER TOP */}
-              <AutoAffix viewportOffsetTop={0} container={this}>
+
+
                 {/* BEGIN HEADER MENU */}
                 <div className="page-header-menu">
                     <div className="container">
@@ -377,7 +379,7 @@ export default class Home extends Component {
                         {/* DOC: Apply "hor-menu-light" className after the "hor-menu" className below to have a horizontal menu with white background */}
                         {/* DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the dropdown opening on mouse hover */}
                         <div className="hor-menu  ">
-                            <ul className="nav navbar-nav">
+                            <ul className="nav navbar-nav navbar-fixed-top">
                                 <li className="menu-dropdown classNameic-menu-dropdown">
                                     <a href="javascript:;"> Dashboard
                                         <span className="arrow"></span>
@@ -429,7 +431,7 @@ export default class Home extends Component {
                     </div>
                 </div>
                 {/* END HEADER MENU */}
-              </AutoAffix>
+              
 
           </div>
           <div className="page-container">
@@ -440,7 +442,7 @@ export default class Home extends Component {
                   <div className="page-content">
                       <div className="container">
                           {/* BEGIN PAGE CONTENT INNER */}
-                          <div className="page-content-inner">
+                          <div className="">
                             {this.props.children}
                           </div>
                           {/* END PAGE CONTENT INNER */}

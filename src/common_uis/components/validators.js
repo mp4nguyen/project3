@@ -18,3 +18,8 @@ export function phone(value) {
   var phoneno = /^\d{8,12}$/;
   return !phoneno.test(value) ? ['This phone number is invalid']: [];
 }
+
+export function number(value){
+  console.log('check numeber or not ',isNaN(value));
+  return isNaN(value) ? ['This number is invalid']:[];
+}
