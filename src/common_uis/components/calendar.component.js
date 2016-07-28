@@ -15,7 +15,10 @@ export default React.createClass({
     selectable: PropTypes.bool,
     dayClick: PropTypes.func,
     select: PropTypes.func,
-    eventClick: PropTypes.func
+    eventClick: PropTypes.func,
+    eventDragStop: PropTypes.func,
+    eventResize: PropTypes.func,
+    eventDrop: PropTypes.func
   },
 
   getDefaultProps() {
@@ -28,10 +31,18 @@ export default React.createClass({
     }
   },
 
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps = ',nextProps);
+    $('#calendar').fullCalendar('removeEvents');
+    $('#calendar').fullCalendar('addEventSource', nextProps.events);
+    $('#calendar').fullCalendar('rerenderEvents' );
+  },
+
+
   componentDidMount() {
     var self = this;
 
-    var m = $('#calendar').fullCalendar({
+    $('#calendar').fullCalendar({
           schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
           header: {
                        left: 'prev,next today',
@@ -67,6 +78,24 @@ export default React.createClass({
               if(self.props.select){
                 self.props.select(view,jsEvent);
               }
+          },
+          eventDragStop: function( event, jsEvent, ui, view ) {
+            console.log('eventDragStart = ',event);
+            if(self.props.eventDragStop){
+              self.props.eventDragStop(event, jsEvent, ui, view);
+            }
+          },
+          eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ) {
+            console.log('eventDrop = ',event);
+            if(self.props.eventDrop){
+              self.props.eventDrop(event, delta, revertFunc, jsEvent, ui, view);
+            }
+          },
+          eventResize: function( event, delta, revertFunc, jsEvent, ui, view ) {
+            console.log('eventResize = ',event);
+            if(self.props.eventResize){
+              self.props.eventResize(event, delta, revertFunc, jsEvent, ui, view );
+            }
           }
        });
   },

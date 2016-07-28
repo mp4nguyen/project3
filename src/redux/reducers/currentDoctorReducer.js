@@ -1,4 +1,4 @@
-import {SET_CURRENT_DOCTOR,UPDATE_CURRENT_DOCTOR_FIELDS,SAVE_CURRENT_DOCTOR} from '../actions/types';
+import {SET_CURRENT_DOCTOR,UPDATE_CURRENT_DOCTOR_FIELDS,SAVE_CURRENT_DOCTOR,FETCH_ROSTER_OF_DOCTOR} from '../actions/types';
 
 let currentDoctorReducer = function(currentDoctor={},action){
   switch(action.type){
@@ -12,8 +12,8 @@ let currentDoctorReducer = function(currentDoctor={},action){
       }else{
           return Object.assign({},currentDoctor,action.currentDoctor);
       }
-    case SAVE_CURRENT_DOCTOR:
-        return currentDoctor;
+    case FETCH_ROSTER_OF_DOCTOR:
+        return {...currentDoctor,RostersV:action.payload.data.rosters};
     default:
         return currentDoctor;
   }

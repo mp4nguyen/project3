@@ -54,6 +54,13 @@ class DoctorDetail extends Component {
       (
         <div>
           <Tabs>
+          <Tab
+            label="Roster"
+          >
+            <div>
+             <DoctorRoster/>
+            </div>
+          </Tab>          
            <Tab label="Person Information" >
              <MyForm
                update={this.props.updateCurrentDoctorFields}
@@ -82,13 +89,6 @@ class DoctorDetail extends Component {
               <h1/>
               <BookingTypes data={this.props.currentDoctor.BookingTypes}/>
               <Clinics  data={this.props.currentDoctor.Clinics}/>
-             </div>
-           </Tab>
-           <Tab
-             label="Roster"
-           >
-             <div>
-              <DoctorRoster/>
              </div>
            </Tab>
          </Tabs>

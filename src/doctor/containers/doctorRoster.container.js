@@ -44,6 +44,10 @@ class DoctorRoster extends Component {
     router: React.PropTypes.object
   };
 
+  componentWillMount(){
+      this.props.fetchRoster(this.props.currentDoctor.doctorId);
+  }
+
   componentDidMount() {
 
   }
@@ -55,6 +59,7 @@ class DoctorRoster extends Component {
   _dayClick(date){
     console.log('dayclick is triggered date=',date);
     this.props.openClickDayModal({
+                                    rosterId: null,
                                     doctorId:this.props.currentDoctor.doctorId,
                                     start: date.format('YYYY-MM-DD HH:mm:ss'),
                                     end: date.format('YYYY-MM-DD HH:mm:ss')
@@ -69,8 +74,30 @@ class DoctorRoster extends Component {
     console.log('eventclick is triggered calEvent=',newObject);
   }
 
-  _select(){
-    console.log('select is triggered');
+  _select(start, end){
+    console.log('select is triggered date=',start,' - ',end);
+    this.props.openClickDayModal({
+                                    rosterId: null,
+                                    doctorId:this.props.currentDoctor.doctorId,
+                                    start: start.format('YYYY-MM-DD HH:mm:ss'),
+                                    end: end.format('YYYY-MM-DD HH:mm:ss')
+                                  });
+  }
+
+  _eventDrop(calEvent){
+    var newObject = Object.assign({},calEvent);
+    newObject.start = newObject.start.format('YYYY-MM-DD HH:mm:ss');
+    newObject.end = newObject.end.format('YYYY-MM-DD HH:mm:ss');
+    this.props.openEventDayModal(newObject);
+    console.log('_eventDrop is triggered calEvent=',newObject);
+  }
+
+  _eventResize(calEvent){
+    var newObject = Object.assign({},calEvent);
+    newObject.start = newObject.start.format('YYYY-MM-DD HH:mm:ss');
+    newObject.end = newObject.end.format('YYYY-MM-DD HH:mm:ss');
+    this.props.openEventDayModal(newObject);
+    console.log('_eventResize is triggered calEvent=',newObject);
   }
 
   _handleCloseModel(){
@@ -103,6 +130,8 @@ class DoctorRoster extends Component {
             dayClick={this._dayClick.bind(this)}
             eventClick={this._eventClick.bind(this)}
             select={this._select.bind(this)}
+            eventDrop={this._eventDrop.bind(this)}
+            eventResize={this._eventResize.bind(this)}
             />
 
             <Modal show={this.props.roster.isEventDayModalOpen||this.props.roster.isClickDayModalOpen} onHide={this._handleCloseModel.bind(this)}>
@@ -150,6 +179,7 @@ class DoctorRoster extends Component {
                   </Modal.Body>
                   <Modal.Footer>
                     <SubmitButton className="pull-right"/>
+                    <RaisedButton label="Delete"/>
                   </Modal.Footer>
                 </MyForm>
             </Modal>

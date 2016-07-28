@@ -43,11 +43,20 @@ export function updateModalField(field){
     }
 };
 
+export function	fetchRoster(doctorId){
+  var req = postRequest('/CCompanies/listRosters',{doctorId});
+  return {
+    type: types.FETCH_ROSTER_OF_DOCTOR,
+    payload: req
+  };
+};
+
 export function	rosterGeneration(currentRoster){
 
   var fromDate = moment(currentRoster.start,'YYYY-MM-DD HH:mm:ss');
   var toDate = moment(currentRoster.end,'YYYY-MM-DD HH:mm:ss');
   var def = {
+          "rosterId": currentRoster.rosterId,
     			"doctorId": currentRoster.doctorId,
     			"workingSiteId": currentRoster.workingSiteId,
     			"bookingTypeId": currentRoster.bookingTypeId,
@@ -63,6 +72,8 @@ export function	rosterGeneration(currentRoster){
     postRequest('/CCompanies/generateRoster',def)
       .then(res => {
         console.log('response=',res);
+        //after generate, fetch roster again to display on the calendar
+        dispatch({type:types.FETCH_ROSTER_OF_DOCTOR, payload:res});
         toastr.success('', 'Generate roster successfully !')
       })
       .catch((err) => {

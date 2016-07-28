@@ -25,7 +25,7 @@ export default (
 	<Route path="/" component={App}>
 		<IndexRoute component={Login}/>
 		<Route path="Home" component={RequireAuth(Home)}>
-			<IndexRoute component={Bookings}/>
+			<IndexRoute component={DoctorList}/>
 			<Route path="Bookings" component={Bookings} />
 			<Route path="CompanyList" component={CompanyList} />
 			<Route path="CompanyDetail" component={CompanyDetail} />
